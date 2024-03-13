@@ -10,6 +10,7 @@ from .bg import DEVICE, Net, iter_frames, remove_many
 import tempfile
 import requests
 from pathlib import Path
+import re
 
 multiprocessing.set_start_method('spawn', force=True)
 
@@ -89,6 +90,7 @@ def matte_key(output, file_path,
         file_path
     ]
     framerate_output = sp.check_output(cmd, universal_newlines=True)
+    framerate_output = re.search("\d*", framerate_output).group(0)
     total_frames = int(framerate_output)
     if frame_limit != -1:
         total_frames = min(frame_limit, total_frames)
